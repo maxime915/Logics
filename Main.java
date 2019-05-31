@@ -9,7 +9,9 @@ public class Main {
         System.out.println(ln);
         System.out.println(ln.getTruthTable());
 
-        System.out.println("min terms: " + Arrays.toString(ln.getMinTerms()));
-        System.out.println("max terms: " + Arrays.toString(ln.getMaxTerms()));
+        System.out.println("min terms: " + Arrays.toString(ln.getMinTermsIndex()));
+        System.out.println(ln.asSumOfMinterms());
+        System.out.println("max terms: " + Arrays.toString(ln.getMaxTermsIndex()));
+        System.out.println(ln.asProdfMaxterms());
     }
 }
