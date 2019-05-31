@@ -7,6 +7,7 @@ public class LogicChain {
     private LogicNode first;
     private boolean[] values;
     private char[] names;
+    private String query;
 
     private LogicChain() {
     }
@@ -20,6 +21,7 @@ public class LogicChain {
         LogicChain lc = new LogicChain();
         lc.values = new boolean[numberOfVariable];
         lc.names = b.names;
+        lc.query = s;
         LogicNode[] nodes = new LogicNode[numberOfVariable];
 
         for (int i = 0; i < numberOfVariable; i++)
@@ -185,7 +187,9 @@ public class LogicChain {
 
     @Override
     public String toString() {
-        return "Logic function with variables " + Arrays.toString(names) + " and body : " + first.toString();
+        String s = "Logic function with variables " + Arrays.toString(names);
+        s += "\n\torinigal quey : " + query;
+        return s + "\n\tand body : " + first.toString();
     }
 
 }
