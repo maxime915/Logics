@@ -75,7 +75,30 @@ public class LogicChain {
         return res;
     }
 
-    public int[] getMinTerms() {
+    public String asSumOfMinterms() {
+        String s = "";
+
+        resetValues();
+        do {
+            if (get(values)) {
+                if (s != "")
+                    s += "+";
+                s += "(";
+                for (int i = 0; i < values.length; i++) {
+                    if (i != 0)
+                        s += "*";
+                    if (!values[i])
+                        s += "!";
+                    s += "" + names[i];
+                }
+                s += ")";
+            }
+        } while (incrementValues());
+
+        return s;
+    }
+
+    public int[] getMinTermsIndex() {
         int[] mins = new int[(int) Math.pow(2, values.length)];
         int counter = 0;
         int v = 0;
@@ -90,7 +113,30 @@ public class LogicChain {
         return Arrays.copyOf(mins, counter);
     }
 
-    public int[] getMaxTerms() {
+    public String asProdfMaxterms() {
+        String s = "";
+
+        resetValues();
+        do {
+            if (!get(values)) {
+                if (s != "")
+                    s += "*";
+                s += "(";
+                for (int i = 0; i < values.length; i++) {
+                    if (i != 0)
+                        s += "+";
+                    if (values[i])
+                        s += "!";
+                    s += "" + names[i];
+                }
+                s += ")";
+            }
+        } while (incrementValues());
+
+        return s;
+    }
+
+    public int[] getMaxTermsIndex() {
         int[] mins = new int[(int) Math.pow(2, values.length)];
         int counter = 0;
         int v = 0;
