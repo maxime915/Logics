@@ -2,17 +2,17 @@ import java.util.Arrays;
 import java.util.Random;
 import java.util.regex.*;
 
-public class LogicChain {
+public class LogicChain implements LogicFunction {
 
     private LogicNode first;
     private boolean[] values;
     private char[] names;
     private String query;
 
-    private LogicChain() {
+    public LogicChain() {
     }
 
-    public static LogicChain fromString(String description) {
+    public LogicChain fromString(String description) {
         String s = Builder.formatCheck(description);
 
         Builder b = new Builder(s);
@@ -32,11 +32,19 @@ public class LogicChain {
         return lc;
     }
 
-    private boolean get() {
+    public String[] getNames() {
+        String[] nms = new String[names.length];
+        for (int i = 0; i < nms.length; i++)
+            nms[i] = "";
+
+        return nms;
+    }
+
+    private boolean call() {
         return first.call();
     }
 
-    public boolean get(boolean... vs) {
+    public boolean call(boolean... vs) {
         if (vs.length != values.length)
             throw new RuntimeException("not the right number of values");
 
@@ -46,7 +54,7 @@ public class LogicChain {
         return first.call();
     }
 
-    public String getTruthTable() {
+    public String getTruthTableRepresentation() {
         String res = "";
 
         resetValues();
@@ -70,7 +78,7 @@ public class LogicChain {
             res += "\n| ";
             for (int i = 0; i < values.length; i++)
                 res += (values[i] ? "1 " : "0 ");
-            res += "| " + (get() ? "1" : "0") + " |";
+            res += "| " + (call() ? "1" : "0") + " |";
         } while (incrementValues());
 
         res += "\n•-";
@@ -81,12 +89,23 @@ public class LogicChain {
         return res;
     }
 
-    public String asSumOfMinterms() {
+    public boolean[] getTruthTable() {
+        boolean[] table = new boolean[(int) Math.pow(2, values.length)];
+
+        int count = 0;
+        do {
+            table[count++] = call();
+        } while (incrementValues());
+
+        return table;
+    }
+
+    public String expressAsSumOfMinterms() {
         String s = "";
 
         resetValues();
         do {
-            if (get()) {
+            if (call()) {
                 if (s != "")
                     s += "+";
                 s += "(";
@@ -111,7 +130,7 @@ public class LogicChain {
 
         resetValues();
         do {
-            if (get())
+            if (call())
                 mins[counter++] = v;
             v++;
         } while (incrementValues());
@@ -119,12 +138,12 @@ public class LogicChain {
         return Arrays.copyOf(mins, counter);
     }
 
-    public String asProdfMaxterms() {
+    public String expressAsProductOfMaxterms() {
         String s = "";
 
         resetValues();
         do {
-            if (!get()) {
+            if (!call()) {
                 if (s != "")
                     s += "*";
                 s += "(";
@@ -149,7 +168,7 @@ public class LogicChain {
 
         resetValues();
         do {
-            if (!get())
+            if (!call())
                 mins[counter++] = v;
             v++;
         } while (incrementValues());
