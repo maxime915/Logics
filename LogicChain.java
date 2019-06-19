@@ -9,27 +9,21 @@ public class LogicChain implements LogicFunction {
     private char[] names;
     private String query;
 
-    public LogicChain() {
-    }
+    public LogicChain (String description) {
+        Builder b;
+        // build the logic
+        try {
+            b = new Builder(description);
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Unable to parse string");
+        }
 
-    public LogicChain fromString(String description) {
-        String s = Builder.formatCheck(description);
-
-        Builder b = new Builder(s);
-        int numberOfVariable = b.numberOfVariable;
-
-        LogicChain lc = new LogicChain();
-        lc.values = new boolean[numberOfVariable];
-        lc.names = b.names;
-        lc.query = s;
-        LogicNode[] nodes = new LogicNode[numberOfVariable];
-
-        for (int i = 0; i < numberOfVariable; i++)
-            nodes[i] = LogicNode.Variable(lc.values, i, b.names[i]);
-
-        lc.first = b.build(nodes);
-
-        return lc;
+        // get references
+        values = b.getValues();
+        names = b.getNames();
+        first = b.getFirst();
+        query = b.getCleanedQuery();
     }
 
     public String[] getNames() {
@@ -219,54 +213,78 @@ public class LogicChain implements LogicFunction {
 
 class Builder {
 
-    public int first;
-    public int[] indexMapping;
+    private int[] indexMapping;
 
-    public LogicNode[] nodes;
-    public char[] names;
+    private LogicNode first; // root node
+    private LogicNode[] nodes; // store the variable
+    private boolean[] values; // values on which the variable depends
 
-    public int numberOfVariable;
-    public char[] initialSequence;
+    private char[] names; // names of each variable
 
-    public static char[] letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
-    public static Pattern pattern = Pattern.compile("^[\t \\[\\]\\(\\)A-Z0-1\\+\\*&\\|!']+$");
+    private String query;
+
+    private static char[] letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
+    private static Pattern pattern = Pattern.compile("^[\t \\[\\]\\(\\)A-Z0-1\\+\\*&\\|!']+$");
 
     Builder(String s) {
-        initialSequence = s.toCharArray();
+        query = Builder.clean(s);
+
+        char[] sequence = query.toCharArray();
 
         int count = 0;
-        for (int i = 0; i < initialSequence.length; i++)
-            if (initialSequence[i] == '(')
+        for (int i = 0; i < sequence.length; i++)
+            if (sequence[i] == '(')
                 count++;
-            else if (initialSequence[i] == ')')
+            else if (sequence[i] == ')')
                 count--;
         if (count != 0)
             throw new RuntimeException("Unbalenced ()");
 
         indexMapping = new int[letters.length];
         names = new char[letters.length];
-        first = (int) letters[0]; // should be 65
 
         for (int i = 0; i < letters.length; i++)
             indexMapping[i] = -1;
 
-        numberOfVariable = 0;
+        int numberOfVariable = 0;
 
         for (int j = 0; j < letters.length; j++) {
-            for (int i = 0; i < initialSequence.length; i++) {
-                if (initialSequence[i] == letters[j] && indexMapping[(int) letters[j] - first] == -1) {
-                    indexMapping[(int) letters[j] - first] = numberOfVariable++;
+            for (int i = 0; i < sequence.length; i++) {
+                if (sequence[i] == letters[j] && indexMapping[(int) letters[j] - (int) letters[0]] == -1) {
+                    indexMapping[(int) letters[j] - (int) letters[0]] = numberOfVariable++;
                     names[numberOfVariable - 1] = letters[j];
                 }
             }
         }
 
+        // trim down end of array
         names = Arrays.copyOf(names, numberOfVariable);
+
+        values = new boolean[numberOfVariable];
+        nodes = new LogicNode[numberOfVariable];
+
+        for (int i = 0; i < numberOfVariable; i++)
+            nodes[i] = LogicNode.Variable(values, i, names[i]);
+
+        first = buildRec(sequence);
     }
 
-    LogicNode build(LogicNode[] nodes) {
-        this.nodes = nodes;
-        return buildRec(initialSequence);
+    // getters
+
+    LogicNode getFirst() {
+        return first;
+    }
+
+    char[] getNames() {
+        return names;
+    }
+
+    boolean[] getValues() {
+        return values;
+    }
+
+    String getCleanedQuery() {
+        return query;
     }
 
     private LogicNode buildRec(char[] sequence) {
@@ -372,7 +390,7 @@ class Builder {
             if (sequence[0] == '1')
                 return LogicNode.TRUE();
             try {
-                return nodes[indexMapping[(int) sequence[0] - first]];
+                return nodes[indexMapping[(int) sequence[0] - (int) letters[0]]];
             } catch (IndexOutOfBoundsException e) {
                 e.printStackTrace();
                 throw new RuntimeException("Unrocognized token: " + sequence[0]);
@@ -400,7 +418,7 @@ class Builder {
         return LogicNode.NOT(buildRecBracketLess(Arrays.copyOfRange(sequence, 1, 2)));
     }
 
-    static String formatCheck(String s) {
+    private static String clean(String s) {
         s = s.toUpperCase();
         if (!pattern.matcher(s).matches())
             throw new RuntimeException("Invalid String format");
