@@ -6,6 +6,7 @@ public class LogicChain {
 
     private LogicNode first;
     private boolean[] values;
+    private boolean[] table;
     private char[] names;
     private String query;
 
@@ -20,6 +21,7 @@ public class LogicChain {
 
         LogicChain lc = new LogicChain();
         lc.values = new boolean[numberOfVariable];
+        lc.table = new boolean[(int) Math.pow(2, numberOfVariable)];
         lc.names = b.names;
         lc.query = s;
         LogicNode[] nodes = new LogicNode[numberOfVariable];
@@ -30,6 +32,10 @@ public class LogicChain {
         lc.first = b.build(nodes);
 
         return lc;
+    }
+
+    private boolean get() {
+        return first.call();
     }
 
     public boolean get(boolean... vs) {
@@ -66,7 +72,7 @@ public class LogicChain {
             res += "\n| ";
             for (int i = 0; i < values.length; i++)
                 res += (values[i] ? "1 " : "0 ");
-            res += "| " + (get(values) ? "1" : "0") + " |";
+            res += "| " + (get() ? "1" : "0") + " |";
         } while (incrementValues());
 
         res += "\n•-";
@@ -82,7 +88,7 @@ public class LogicChain {
 
         resetValues();
         do {
-            if (get(values)) {
+            if (get()) {
                 if (s != "")
                     s += "+";
                 s += "(";
@@ -107,7 +113,7 @@ public class LogicChain {
 
         resetValues();
         do {
-            if (get(values))
+            if (get())
                 mins[counter++] = v;
             v++;
         } while (incrementValues());
@@ -120,7 +126,7 @@ public class LogicChain {
 
         resetValues();
         do {
-            if (!get(values)) {
+            if (!get()) {
                 if (s != "")
                     s += "*";
                 s += "(";
@@ -145,7 +151,7 @@ public class LogicChain {
 
         resetValues();
         do {
-            if (!get(values))
+            if (!get())
                 mins[counter++] = v;
             v++;
         } while (incrementValues());
