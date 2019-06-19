@@ -1,20 +1,20 @@
 public class LogicFunctionHandler {
 
     private boolean[] values;
-    private LogicFunction f;
+    private CallableLogic f;
 
-    public LogicFunctionHandler(LogicFunction fun, int nInputs) {
+    public LogicFunctionHandler(CallableLogic fun, int nInputs) {
         values = new boolean[nInputs];
         f = fun;
     }
 
-    public boolean get(boolean[] vs) {
+    public boolean get(boolean... vs) {
         if (vs.length != values.length)
             throw new RuntimeException("not the right number of values");
         return f.call(vs);
     }
 
-    public static String verifyTable(int n, LogicFunction... fs) {
+    public static String verifyTable(int n, CallableLogic... fs) {
         String res = "Logic function of " + n + " inputs:";
         LogicFunctionHandler lfh = new LogicFunctionHandler(fs[0], n);
         lfh.resetValues();
@@ -45,7 +45,8 @@ public class LogicFunctionHandler {
     }
 
     private void resetValues() {
-        values = new boolean[values.length];
+        for (int i = 0; i < values.length; i++)
+            values[i] = false;
     }
 
     private boolean incrementValues() {
