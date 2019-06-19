@@ -6,7 +6,6 @@ public class LogicChain {
 
     private LogicNode first;
     private boolean[] values;
-    private boolean[] table;
     private char[] names;
     private String query;
 
@@ -21,7 +20,6 @@ public class LogicChain {
 
         LogicChain lc = new LogicChain();
         lc.values = new boolean[numberOfVariable];
-        lc.table = new boolean[(int) Math.pow(2, numberOfVariable)];
         lc.names = b.names;
         lc.query = s;
         LogicNode[] nodes = new LogicNode[numberOfVariable];
