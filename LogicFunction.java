@@ -1,7 +1,5 @@
 public interface LogicFunction extends CallableLogic {
 
-    public LogicFunction fromString(String description);
-
     public String[] getNames();
 
     public boolean[] getTruthTable();
