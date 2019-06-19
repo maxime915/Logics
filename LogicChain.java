@@ -188,7 +188,7 @@ public class LogicChain {
     @Override
     public String toString() {
         String s = "Logic function with variables " + Arrays.toString(names);
-        s += "\n\torinigal quey : " + query;
+        s += "\n\torinigal query : [ " + query + " ]";
         return s + "\n\tand body : " + first.toString();
     }
 
