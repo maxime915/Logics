@@ -1,13 +1,5 @@
 import java.util.Arrays;
 
-/*
-    remaining bugs for entry : 
-        "A+(B*C)"
-        "(A+B)*C+D"
-        "0+(A+B)*C+D"
-        "(A+B)*C+D"
-*/
-
 public class LogicChain implements LogicFunction {
 
     private LogicNode first;
@@ -90,7 +82,7 @@ public class LogicChain implements LogicFunction {
     }
 
     public boolean[] getTruthTable() {
-        boolean[] table = new boolean[(int) Math.pow(2, values.length)];
+        boolean[] table = new boolean[1 << values.length];
 
         int count = 0;
         do {
@@ -124,7 +116,7 @@ public class LogicChain implements LogicFunction {
     }
 
     public int[] getMinTermsIndex() {
-        int[] mins = new int[(int) Math.pow(2, values.length)];
+        int[] mins = new int[1 << values.length];
         int counter = 0;
         int v = 0;
 
@@ -162,7 +154,7 @@ public class LogicChain implements LogicFunction {
     }
 
     public int[] getMaxTermsIndex() {
-        int[] mins = new int[(int) Math.pow(2, values.length)];
+        int[] mins = new int[1 << values.length];
         int counter = 0;
         int v = 0;
 
