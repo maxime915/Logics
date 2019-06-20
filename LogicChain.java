@@ -59,7 +59,7 @@ public class LogicChain implements LogicFunction {
         res += "| ";
         for (int i = 0; i < names.length; i++)
             res += names[i] + " ";
-        res += "| F |\n";
+        res += "| f |\n";
 
         res += "|-";
         for (int i = 0; i < names.length; i++)
