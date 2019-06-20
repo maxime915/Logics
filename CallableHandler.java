@@ -1,18 +1,18 @@
 import java.util.Arrays;
 
-public class LogicFunctionHandler implements LogicFunction {
+public class CallableHandler implements LogicFunction {
 
     private boolean[] values;
     private char[] names;
     private CallableLogic f;
 
-    public LogicFunctionHandler(CallableLogic fun, int nInputs) {
+    public CallableHandler(CallableLogic fun, int nInputs) {
         values = new boolean[nInputs];
         f = fun;
         names = null;
     }
 
-    public LogicFunctionHandler(CallableLogic fun, int nInputs, char... names) {
+    public CallableHandler(CallableLogic fun, int nInputs, char... names) {
         this(fun, nInputs);
         this.setNames(names);
     }
@@ -44,7 +44,7 @@ public class LogicFunctionHandler implements LogicFunction {
 
     public static String verifyTable(int n, CallableLogic... fs) {
         String res = "Logic function of " + n + " inputs:";
-        LogicFunctionHandler lfh = new LogicFunctionHandler(fs[0], n);
+        CallableHandler lfh = new CallableHandler(fs[0], n);
         lfh.resetValues();
 
         do {
@@ -63,7 +63,7 @@ public class LogicFunctionHandler implements LogicFunction {
         if (fs.length < 1)
             throw new RuntimeException("Empty list");
         String res = fs.length + " logic functions of " + n + " inputs\n";
-        LogicFunctionHandler lfh = new LogicFunctionHandler(fs[0], n);
+        CallableHandler lfh = new CallableHandler(fs[0], n);
 
         if (fs.length == 1)
             return res + lfh.getTruthTableRepresentation();
