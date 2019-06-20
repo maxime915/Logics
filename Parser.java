@@ -1,7 +1,7 @@
 import java.util.Arrays;
 import java.util.regex.*;
 
-public class Builder {
+public class Parser {
 
     private int[] indexMapping;
 
@@ -16,8 +16,8 @@ public class Builder {
     private static char[] letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
     private static Pattern pattern = Pattern.compile("^[\t \\[\\]\\(\\)A-Z0-1\\+\\*&\\|!']+$");
 
-    Builder(String s) {
-        query = Builder.clean(s);
+    Parser(String s) {
+        query = Parser.clean(s);
 
         char[] sequence = query.toCharArray();
 
