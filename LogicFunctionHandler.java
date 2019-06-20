@@ -73,7 +73,10 @@ public class LogicFunctionHandler implements LogicFunction {
         res += "•-";
         for (int i = 0; i < lfh.names.length; i++)
             res += "--";
-        res += "----•\n"; // FIXME: not the right amount of ---
+        res += "--";
+        for (int i = 0; i < fs.length; i++)
+            res += "--";
+        res += "•\n";
 
         if (lfh.names != null) {
             res += "| ";
@@ -81,13 +84,16 @@ public class LogicFunctionHandler implements LogicFunction {
                 res += lfh.names[i] + " ";
             res += "| ";
             for (int i = 1; i <= fs.length; i++)
-                res += i + " ";
+                res += "f ";
             res += "|\n";
 
             res += "|-";
             for (int i = 0; i < lfh.names.length; i++)
                 res += "--";
-            res += "+---|";
+            res += "+-";
+            for (int i = 0; i < fs.length; i++)
+                res += "--";
+            res += "|\n";
         }
 
         do {
@@ -107,7 +113,10 @@ public class LogicFunctionHandler implements LogicFunction {
         res += "\n•-";
         for (int i = 0; i < lfh.names.length; i++)
             res += "--";
-        res += "----•"; // FIXME: not the right amount of ---
+        res += "--";
+        for (int i = 0; i < fs.length; i++)
+            res += "--";
+        res += "•\n";
 
         return res;
     }
@@ -126,7 +135,7 @@ public class LogicFunctionHandler implements LogicFunction {
             res += "| ";
             for (int i = 0; i < names.length; i++)
                 res += names[i] + " ";
-            res += "| F |\n";
+            res += "| f |\n";
 
             res += "|-";
             for (int i = 0; i < names.length; i++)
