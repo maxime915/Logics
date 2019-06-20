@@ -8,10 +8,10 @@ public class LogicTable implements LogicFunction {
     private String logicDescription;
 
     public LogicTable(String description) {
-        Builder b;
+        Parser p;
         // build the logic
         try {
-            b = new Builder(description);
+            p = new Parser(description);
         } catch (RuntimeException e) {
             e.printStackTrace();
             throw new RuntimeException("Unable to parse string");
@@ -20,12 +20,12 @@ public class LogicTable implements LogicFunction {
         // get references
 
         // temp references
-        boolean[] values = b.getValues();
-        LogicNode first = b.getFirst();
+        boolean[] values = p.getValues();
+        LogicNode first = p.getFirst();
 
         // members
-        names = b.getNames();
-        query = b.getCleanedQuery();
+        names = p.getNames();
+        query = p.getCleanedQuery();
         logicDescription = first.toString();
         table = new boolean[1 << values.length]; // 2 ** l
 

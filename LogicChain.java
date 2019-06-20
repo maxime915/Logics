@@ -8,20 +8,20 @@ public class LogicChain implements LogicFunction {
     private String query;
 
     public LogicChain(String description) {
-        Builder b;
+        Parser p;
         // build the logic
         try {
-            b = new Builder(description);
+            p = new Parser(description);
         } catch (RuntimeException e) {
             e.printStackTrace();
             throw new RuntimeException("Unable to parse string");
         }
 
         // get references
-        values = b.getValues();
-        names = b.getNames();
-        first = b.getFirst();
-        query = b.getCleanedQuery();
+        values = p.getValues();
+        names = p.getNames();
+        first = p.getFirst();
+        query = p.getCleanedQuery();
     }
 
     public String[] getNames() {
