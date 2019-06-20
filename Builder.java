@@ -2,6 +2,15 @@ import java.util.Arrays;
 import java.util.Random;
 import java.util.regex.*;
 
+/*
+    remaining bugs for entry : 
+        "A+(B*C)"
+        "(A+B)*C+D"
+        "0+(A+B)*C+D"
+        "(A+B)*C+D"
+        "Z+(A+B)C+D"
+*/
+
 public class Builder {
 
     private int[] indexMapping;
