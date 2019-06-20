@@ -31,7 +31,7 @@ public class LogicTable implements LogicFunction {
 
         for (int i = 0; i < table.length; i++) {
             for (int k = 0; k < values.length; k++)
-                values[k] = (i / (int) Math.pow(2, k)) % 2 == 1;
+                values[k] = (i >> k) % 2 == 1; // values[k]
             table[i] = first.call();
         }
     }
@@ -79,7 +79,7 @@ public class LogicTable implements LogicFunction {
         for (int i = 0; i < table.length; i++) {
             res += "\n| ";
             for (int k = 0; k < names.length; k++)
-                res += ((i >> k) % 2 == 1 ? "1 " : "0 ");
+                res += ((i >> k) % 2 == 1 ? "1 " : "0 "); // values[k]
 
             res += "| " + (table[i] ? "1" : "0") + " |";
         }
