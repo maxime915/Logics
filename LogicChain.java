@@ -106,7 +106,7 @@ public class LogicChain implements LogicFunction {
                         s += "*";
                     if (!values[i])
                         s += "!";
-                    s += "" + names[i];
+                    s += String.valueOf(names[i]);
                 }
                 s += ")";
             }
@@ -144,7 +144,7 @@ public class LogicChain implements LogicFunction {
                         s += "+";
                     if (values[i])
                         s += "!";
-                    s += "" + names[i];
+                    s += String.valueOf(names[i]);
                 }
                 s += ")";
             }

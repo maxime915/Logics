@@ -109,7 +109,7 @@ public class LogicTable implements LogicFunction {
                         s += "*";
                     if ((i >> j) % 2 != 1) // if (!(values[j]))
                         s += "!";
-                    s += "" + names[j];
+                    s += String.valueOf(names[j]);
                 }
                 s += ")";
             }
@@ -145,7 +145,7 @@ public class LogicTable implements LogicFunction {
                         s += "+";
                     if ((i >> j) % 2 != 1)
                         s += "!";
-                    s += "" + names[j];
+                    s +=  String.valueOf(names[j]);
                 }
                 s += ")";
             }

@@ -183,7 +183,7 @@ public class CallableHandler implements LogicFunction {
                         s += "*";
                     if (!values[i])
                         s += "!";
-                    s += "" + (names != null ? names[i] : i);
+                    s += String.valueOf(names != null ? names[i] : i);
                 }
                 s += ")";
             }
@@ -221,7 +221,7 @@ public class CallableHandler implements LogicFunction {
                         s += "+";
                     if (values[i])
                         s += "!";
-                    s += "" + (names != null ? names[i] : i);
+                    s += String.valueOf(names != null ? names[i] : i);
                 }
                 s += ")";
             }
