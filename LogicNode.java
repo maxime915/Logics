@@ -15,7 +15,7 @@ public interface LogicNode {
 
             @Override
             public String toString() {
-                return "" + name;
+                return String.valueOf(name);
             }
         };
     }
@@ -97,6 +97,11 @@ public interface LogicNode {
             public boolean call() {
                 return !(a.call() && b.call());
             }
+
+            @Override
+            public String toString() {
+                return "( " + a.toString() + " NAND " + b.toString() + " )";
+            }
         };
     }
 
@@ -105,6 +110,11 @@ public interface LogicNode {
             @Override
             public boolean call() {
                 return !(a.call() || b.call());
+            }
+
+            @Override
+            public String toString() {
+                return "( " + a.toString() + " NOR " + b.toString() + " )";
             }
         };
     }
@@ -116,6 +126,11 @@ public interface LogicNode {
                 boolean ra = a.call(), rb = b.call();
                 return ra && !rb || !ra && rb;
             }
+
+            @Override
+            public String toString() {
+                return "( " + a.toString() + " XOR " + b.toString() + " )";
+            }
         };
     }
 
@@ -125,6 +140,11 @@ public interface LogicNode {
             public boolean call() {
                 boolean ra = a.call(), rb = b.call();
                 return !ra && !rb || ra && rb;
+            }
+
+            @Override
+            public String toString() {
+                return "( " + a.toString() + " NXOR " + b.toString() + " )";
             }
         };
     }
