@@ -170,7 +170,7 @@ public class Parser {
         // remove some un-necessary brackets
 
         // global brackets
-        Matcher m = Pattern.compile("^\\((.*)\\)$").matcher(s);
+        Matcher m = Pattern.compile("^\\(([^()]*)\\)$").matcher(s);
         while (m.matches()) {
             s = m.replaceAll("$1");
             m = Pattern.compile("^\\((.*)\\)$").matcher(s);
