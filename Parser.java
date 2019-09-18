@@ -148,11 +148,20 @@ public class Parser {
         s = Pattern.compile("([A-Z0-1]){1}'").matcher(s).replaceAll("!$1"); // signle value
         s = Pattern.compile("(\\([\\(\\)A-Z0-1\\+\\*&\\|!']+\\))'").matcher(s).replaceAll("!$1"); // expression
 
+        // transform NOT -> !
+        s = Pattern.compile("NOT").matcher(s).replaceAll("!");
+
         // transform + -> |
         s = Pattern.compile("\\+").matcher(s).replaceAll("|");
 
+        // transform OR -> |
+        s = Pattern.compile("OR").matcher(s).replaceAll("|");
+
         // transform * -> &
         s = Pattern.compile("\\*").matcher(s).replaceAll("&");
+
+        // transform AND -> &
+        s = Pattern.compile("AND").matcher(s).replaceAll("&");
 
         // transform "!!" -> ""
         s = Pattern.compile("!!").matcher(s).replaceAll("");
