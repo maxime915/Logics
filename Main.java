@@ -3,7 +3,9 @@ import java.util.Scanner;
 
 public class Main {
 
-    public static void doSomething(String s) {
+    private static Scanner scan = new Scanner(System.in);
+
+    public static void describeSentence(String s) {
         LogicFunction lf = new LogicChain(s);
         System.out.println(lf);
         System.out.println(lf.getTruthTableRepresentation());
@@ -16,20 +18,34 @@ public class Main {
 
     public static void main(String[] args) {
         if (args.length > 0)
-            doSomething(args[0]);
+            describeSentence(args[0]);
 
         String s;
 
-        Scanner scan = new Scanner(System.in);
-
-        for (;;) {
+        while (true) {
             System.out.print("Enter a new boolean expression: ");
             s = scan.nextLine();
-            if (s.equals("no"))
-                break;
-            doSomething(s);
+            if (shouldQuit(s)) {
+                System.out.print("Would you like to quit ? [y/*] : ");
+                String line = scan.nextLine();
+                if (line.equals("y"))
+                    break;
+                // otherwise do description
+            }
+            describeSentence(s);
         }
 
         scan.close();
+    }
+
+    private static boolean shouldQuit(String query) {
+        query = query.toLowerCase();
+        if (query.equals("no"))
+            return true;
+        if (query.equals("quit"))
+            return true;
+        if (query.equals("exit"))
+            return true;
+        return false;
     }
 }
